@@ -4,7 +4,8 @@
   "description": "real-sns",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "format": "prettier --write '**/*.js'"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,8 @@
     "helmet": "^5.1.0",
     "mongoose": "^6.4.5",
     "nodemon": "^2.0.19"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
   }
 }
