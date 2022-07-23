@@ -18,6 +18,7 @@ mongoose
 const PORT = 3000;
 const app = express();
 
+app.use(express.json());
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
