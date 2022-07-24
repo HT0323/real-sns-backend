@@ -45,4 +45,34 @@ router.get('/:id', async (req, res) => {
   res.send('posts router');
 });
 
+//ユーザーのフォロー
+router.put('/:id/follow', async (req, res) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      const user = await User.findById(req.params.id);
+      const currentUser = await User.findById(req.body.userId);
+      if (!user.followers.includes(req.body.userId)) {
+        //フォローされる側のフォロワーにフォローするユーザーidを追加
+        await user.updateOne({
+          $push: {
+            followers: req.body.userId,
+          },
+        });
+        //フォローする側にフォローされるユーザーidを追加
+        await currentUser.updateOne({
+          $push: {
+            followings: req.params.id,
+          },
+        });
+        return res.status(200).json('フォローに成功しました');
+      } else {
+        return res.status(403).json('このユーザーを既にフォローしています');
+      }
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  } else {
+    return res.status(500).json('自分自身をフォローできません');
+  }
+});
 module.exports = router;
